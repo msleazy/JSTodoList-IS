@@ -1,15 +1,42 @@
 import AddTodo from "./components/add-todo.js";    
+import Filters from "./components/filters.js";
 export default class View{
     constructor(){  
         this.model = null;
         this.table = document.getElementById('table');
         this.addTodoForm = new AddTodo();
+        this.filters = new Filters();
+
         this.addTodoForm.onClick ((title, description ) => this.addTodo(title, description));
-        
+        this.filters.onClick((filters) => this.filter(filters));
     }
     setModel(model){
         this.model = model;
     }
+
+    filter(filters){
+        const {type, words} = filters;
+        const [, ...rows] = this.table.getElementsByTagName('tr');
+        for (const row of rows) {
+            const [title, description,completed] = row.children;
+            let shouldHide = false;
+
+            if (words){
+                shouldHide = !title.innerText.includes(words) && !description.innerText.includes(words);
+            }
+            const shouldBeCompleted = type === 'completed';
+            const isCompleted = completed.children[0].checked;
+            if (type !== 'all' && shouldBeCompleted !== isCompleted){
+                shouldHide = true;
+            }
+            if (shouldHide){
+            row.classList.add('d-none');
+            } else {
+                row.classList.remove('d-none');
+            }
+        }
+    }
+    
     addTodo(title, description){
         const todo = this.model.addTodo(title, description);
         this.createRow(todo);
