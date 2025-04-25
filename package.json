@@ -1,0 +1,12 @@
+{
+  "name": "jstodolist-is",
+  "version": "1.0.0",
+  "description": "📌📝 Aplicación web de lista de tareas (ToDo) funcional y persistente, implementada con JavaScript puro.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
