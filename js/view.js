@@ -1,11 +1,13 @@
 import AddTodo from "./components/add-todo.js";    
 import Filters from "./components/filters.js";
+import Modal from "./components/modal.js";
 export default class View{
     constructor(){  
         this.model = null;
         this.table = document.getElementById('table');
         this.addTodoForm = new AddTodo();
         this.filters = new Filters();
+        this.modal = new Modal();
 
         this.addTodoForm.onClick ((title, description ) => this.addTodo(title, description));
         this.filters.onClick((filters) => this.filter(filters));
@@ -13,6 +15,13 @@ export default class View{
     }
     setModel(model){
         this.model = model;
+    }
+
+    render(){
+        const todos = this.model.getTodos();
+        todos.forEach(todo => {
+            this.createRow(todo);
+        });
     }
 
     filter(filters){
