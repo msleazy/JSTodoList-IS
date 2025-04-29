@@ -10,6 +10,7 @@ export default class View{
         this.modal = new Modal();
 
         this.addTodoForm.onClick ((title, description ) => this.addTodo(title, description));
+        this.modal.onClick((id, values) => this.editTodo(id, values));
         this.filters.onClick((filters) => this.filter(filters));
         document.getElementById('clear-filters').onclick = () => this.clearFilters();
     }
@@ -55,6 +56,15 @@ export default class View{
     toggleCompleted(id){
         this.model.toggleCompleted(id);
     }
+
+    editTodo(id, values){
+        this.model.editTodo(id, values);
+        const row = document.getElementById(id);
+
+        row.children[0].innerText = values.title;
+        row.children[1].innerText = values.description
+    }
+
     removeTodo(id){
         this.model.removeTodo(id);
         document.getElementById(id).remove();
@@ -82,6 +92,14 @@ export default class View{
         checkbox.checked = todo.completed;
         checkbox.onclick = () => this.toggleCompleted(todo.id);
         row.children[2].appendChild(checkbox);
+
+        const editBtn = document.createElement('button');
+        editBtn.classList.add('btn', 'btn-primary', 'mb-1');
+        editBtn.innerHTML = '<i class="fa fa-pencil"></i>';
+        editBtn.setAttribute('data-toggle', 'modal');
+        editBtn.setAttribute('data-target', '#modal');
+        editBtn.onclick = () => this.modal.setValues(todo);
+        row.children[3].appendChild(editBtn);
 
         const removeBtn = document.createElement('button');
         removeBtn.classList.add('btn', 'btn-danger', 'mb-1', 'ml-1');

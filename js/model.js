@@ -34,7 +34,8 @@ export default class Model {
     findTodo(id) {
         return this.todos.findIndex((todo) => todo.id === id);
     }
-    toggleCompleted(id) {
+
+    toggleCompleted(id){
         const index = this.findTodo(id);
         const todo = this.todos[index];
         todo.completed = !todo.completed;
